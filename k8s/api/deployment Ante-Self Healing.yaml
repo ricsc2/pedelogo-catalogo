@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: api-deployment
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: api
@@ -21,37 +20,6 @@ spec:
         - containerPort: 443
           name: https
         imagePullPolicy: Always
-        resources:
-          requests:
-            memory: 32Mi
-            cpu: 150m
-          limits:
-            memory: 64Mi
-            cpu: 500m
-        readinessProbe:
-          httpGet:
-            path: /read
-            port: 80
-            scheme: HTTP
-          periodSeconds: 5
-          timeoutSeconds: 1
-          failureThreshold: 3
-          successThreshold: 1
-        startupProbe:
-          httpGet:
-            path: /health
-            port: 80
-            scheme: HTTP
-          failureThreshold: 30
-          periodSeconds: 10
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 80
-            scheme: HTTP
-          periodSeconds: 5
-          timeoutSeconds: 1
-          failureThreshold: 20
         envFrom:
           - configMapRef:
               name: api-configmap
